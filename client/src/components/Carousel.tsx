@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel as UIcarousel,
@@ -13,16 +14,16 @@ export function Carousel({ images, className }: { images?: string[]; className?:
     images && images.length > 0
       ? images
       : [
-          "/images/image1.jpg",
-          "/images/image2.jpg",
-          "/images/image3.jpg",
-          "/images/image4.jpg",
-          "/images/image5.jpg",
+          "https://picsum.photos/200/300",
+          "https://picsum.photos/200/300",
+          "https://picsum.photos/200/300",
+          "https://picsum.photos/200/300",
+          "https://picsum.photos/200/300",
         ];
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isPausedRef = useRef(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -87,7 +88,10 @@ export function Carousel({ images, className }: { images?: string[]; className?:
 
       {/* Shop Now Button */}
       <div className="w-full flex items-center justify-center mt-6">
-        <button className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded hover:bg-indigo-700 transition">
+        <button
+          onClick={() => navigate("/shop")}
+          className="px-12 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition"
+        >
           Shop Now
         </button>
       </div>

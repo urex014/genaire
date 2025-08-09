@@ -15,6 +15,10 @@ import ManageProducts from "./pages/admin/ManageProducts";
 import Orders from "./pages/admin/Orders";
 
 import PrivateRoute from "@/components/PrivateRoute"; // protects admin routes
+import Info from "./pages/public/Info";
+import Gallery from "./pages/public/Gallery";
+import Events from "./pages/public/Events";
+import NewProducts from "./pages/public/NewProducts";
 
 function App() {
   return (
@@ -23,6 +27,10 @@ function App() {
         {/* Public routes */}
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/info" element={<Info />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/shop/new" element={<NewProducts />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />

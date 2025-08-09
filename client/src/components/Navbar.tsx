@@ -19,7 +19,7 @@ export default function ResponsiveNavbar({
       name: "Shop",
       subLinks: [
         { name: "New", href: "/shop/new" },
-        { name: "All", href: "/shop/all" }
+        { name: "All", href: "/shop" }
       ]
     },
     { name: "Gallery", href: "/gallery" },
