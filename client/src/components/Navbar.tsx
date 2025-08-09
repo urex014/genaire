@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef} from "react";
 import type { ReactNode } from "react";
+import { useCart } from "@/lib/CartContext";
 interface NavLink {
   name: string;
   href?: string;
@@ -13,6 +14,7 @@ interface ResponsiveNavbarProps {
 }
 
 export default function ResponsiveNavbar({
+ 
   logo = "Genaire",
   links = [
     {
@@ -29,6 +31,7 @@ export default function ResponsiveNavbar({
   className = ""
 }: ResponsiveNavbarProps) {
   const [open, setOpen] = useState<boolean>(false);
+  const {cartCount} = useCart();
   const [shopOpen, setShopOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -63,15 +66,13 @@ export default function ResponsiveNavbar({
     }
   }
 
-  // Layout notes:
-  // - On small screens we use a flex container so the logo stays left and the icons stay at the extreme right.
-  // - At md and above we switch to a 3-column grid so the links can be centered in the middle column.
+
   return (
     <nav className={`w-full bg-white/80 backdrop-blur-md border-b border-gray-200 ${className}`} aria-label="Primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-16 flex items-center justify-between md:grid md:grid-cols-3 md:items-center">
 
-          {/* left: logo */}
+          {/*  logo */}
           <div className="flex items-center">
             <a href="/" className="flex items-center gap-3">
               {typeof logo === "string" ? <span className="text-lg font-semibold">{logo}</span> : logo}
@@ -123,18 +124,23 @@ export default function ResponsiveNavbar({
             )}
           </div>
 
-          {/* right: icons and mobile hamburger. On small screens this sits at the extreme right because the parent is flex with justify-between. On md+ the parent becomes a grid so we place this in the third column. */}
+          {/* search icon */}
           <div className="flex items-center space-x-4 md:col-start-3 md:justify-end">
             <button aria-label="Search" className="p-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
               <svg className="h-6 w-6 text-gray-700 hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
               </svg>
             </button>
-
-            <a href="/shop" aria-label="Shop" className="p-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+              {/* shopping bad */}
+            <a href="/cart" aria-label="cart" className="p-1 rounded focus:outline-none relative focus-visible:ring-2 focus-visible:ring-indigo-500">
               <svg className="h-6 w-6 text-gray-700 hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a2 2 0 104 0" />
               </svg>
+              {cartCount > 0&&(
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white p-1 text-xs rounded-full ">
+                  {cartCount}
+                </span>
+              )}
             </a>
 
             {/* mobile only hamburger button */}
@@ -187,7 +193,8 @@ export default function ResponsiveNavbar({
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   isActive(link.href) ? "text-indigo-600 bg-indigo-50" : "text-gray-700 hover:bg-gray-50"
                 }`}
-                onClick={() => setOpen(false)}
+                onClick={
+                  (e) =>{e.preventDefault(); setOpen(false)}}
               >
                 {link.name}
               </a>

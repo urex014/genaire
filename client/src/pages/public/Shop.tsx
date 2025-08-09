@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import ExchangeRateConverter from "@/components/ExchangeRateConverter";
+import { useCart } from "@/lib/CartContext";
 
 interface Product {
   id: number;
@@ -29,12 +30,14 @@ const Shop = () => {
   const [priceMax, setPriceMax] = useState<number | "">("");
   const [sortBy, setSortBy] = useState<SortOption>("alphabetical");
 
-  // Currency state
-  const [currency, setCurrency] = useState("NGN");
-  const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({ NGN: 1 });
+  const { addToCart } = useCart();
 
   // Quantity state mapped by product ID
   const [quantities, setQuantities] = useState<Record<number, number>>({});
+
+  // Currency state
+  const [currency, setCurrency] = useState("NGN");
+  const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({ NGN: 1 });
 
   // Close panel on outside click
   useEffect(() => {
@@ -47,14 +50,13 @@ const Shop = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [filterPanelOpen]);
 
-  // Initial product load
+  // Initial product load & set default quantities
   useEffect(() => {
     setProducts(mockProducts);
     setFilteredProducts(mockProducts);
 
-    // Initialize quantity to 1 for all products
     const initialQuantities: Record<number, number> = {};
-    mockProducts.forEach(p => {
+    mockProducts.forEach((p) => {
       initialQuantities[p.id] = 1;
     });
     setQuantities(initialQuantities);
@@ -97,15 +99,11 @@ const Shop = () => {
   }, [inStockOnly, priceMin, priceMax, sortBy, products, currency, exchangeRates]);
 
   // Quantity change handler
-  const handleQuantityChange = (productId: number, newQuantity: number) => {
-    if (newQuantity < 1) return; // Prevent zero or negative
-    setQuantities((prev) => ({ ...prev, [productId]: newQuantity }));
-  };
-
-  // Add to cart handler (replace with your actual cart logic)
-  const addToCart = (productId: number) => {
-    const quantity = quantities[productId] || 1;
-    console.log(`Adding product ${productId} to cart with quantity ${quantity}`);
+  const handleQuantityChange = (id: number, value: number) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: Math.max(1, value),
+    }));
   };
 
   return (
@@ -169,7 +167,15 @@ const Shop = () => {
                   </label>
 
                   <button
-                    onClick={() => addToCart(id)}
+                    onClick={() =>
+                      addToCart({
+                        id,
+                        name,
+                        price,
+                        quantity,
+                        image,
+                      })
+                    }
                     disabled={!inStock}
                     className={`mt-3 w-full py-2 rounded text-white font-semibold ${
                       inStock ? "bg-indigo-600 hover:bg-indigo-700" : "bg-gray-400 cursor-not-allowed"
@@ -184,10 +190,8 @@ const Shop = () => {
         )}
       </div>
 
-      {/* Add your filter panel UI here */}
       {filterPanelOpen && (
         <>
-          {/* Overlay */}
           <div className="fixed inset-0 bg-black opacity-40 z-40"></div>
 
           <aside
@@ -206,7 +210,6 @@ const Shop = () => {
               </button>
             </div>
 
-            {/* In Stock Filter */}
             <label className="flex items-center space-x-2 mb-4 cursor-pointer">
               <input
                 type="checkbox"
@@ -217,7 +220,6 @@ const Shop = () => {
               <span>In Stock Only</span>
             </label>
 
-            {/* Price Range Filter */}
             <div className="mb-4">
               <label className="block mb-1 font-medium">Price Range ({currency})</label>
               <div className="flex space-x-2">
@@ -244,7 +246,6 @@ const Shop = () => {
               </div>
             </div>
 
-            {/* Sort By */}
             <div>
               <label htmlFor="sortBy" className="block mb-1 font-medium">
                 Sort by
