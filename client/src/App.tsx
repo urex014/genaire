@@ -1,13 +1,51 @@
-import Navbar from './components/Navbar';
-import Carousel from './components/Carousel';
-import NewStuff from './components/NewStuff';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import PublicLayout from "@/layouts/PublicLayout";
+import AdminLayout from "@/layouts/AdminLayout";
 
-export default function App(){
-  return(
-    <div>
-      <Navbar />
-      <Carousel />
-      <NewStuff />
-    </div>
-  )
+import Home from "./pages/public/Home";
+import Shop from "./pages/public/Shop";
+import ProductDetails from "@/pages/public/ProductDetails";
+import Cart from "@/pages/public/Cart";
+import Checkout from "@/pages/public/Checkout";
+import OrderSuccess from "@/pages/public/OrderSuccess";
+import OrderCancel from "@/pages/public/OrderCancel";
+
+import Dashboard from "./pages/admin/Dashboard";
+import ManageProducts from "./pages/admin/ManageProducts";
+import Orders from "./pages/admin/Orders";
+
+import PrivateRoute from "@/components/PrivateRoute"; // protects admin routes
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Public routes */}
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/order-cancel" element={<OrderCancel />} />
+        </Route>
+
+        {/* Admin routes (protected) */}
+        <Route
+          element={
+            <PrivateRoute>
+              <AdminLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/products" element={<ManageProducts />} />
+          <Route path="/admin/orders" element={<Orders />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
+
+export default App;
