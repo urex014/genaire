@@ -1,207 +1,79 @@
-import { useState, useEffect, useRef} from "react";
-import type { ReactNode } from "react";
-import { useCart } from "@/lib/CartContext";
-interface NavLink {
-  name: string;
-  href?: string;
-  subLinks?: NavLink[];
-}
+import { useState } from "react";
+import { useTheme } from "@/utils/ThemeContext";
+import { useCart } from "@/utils/CartContext";
+import { Menu, X } from "lucide-react"; // for hamburger icons
+import { useNavigate } from "react-router-dom";
+import { ShoppingCart } from 'lucide-react';
 
-interface ResponsiveNavbarProps {
-  logo?: ReactNode | string;
-  links?: NavLink[];
-  className?: string;
-}
-
-export default function ResponsiveNavbar({
- 
-  logo = "Genaire",
-  links = [
-    {
-      name: "Shop",
-      subLinks: [
-        { name: "New", href: "/shop/new" },
-        { name: "All", href: "/shop" }
-      ]
-    },
-    { name: "Gallery", href: "/gallery" },
-    { name: "Info", href: "/info" },
-    { name: "Events", href: "/events" }
-  ],
-  className = ""
-}: ResponsiveNavbarProps) {
-  const [open, setOpen] = useState<boolean>(false);
-  const {cartCount} = useCart();
-  const [shopOpen, setShopOpen] = useState<boolean>(false);
-  const menuRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setOpen(false);
-        setShopOpen(false);
-      }
-    }
-
-    function handleKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        setOpen(false);
-        setShopOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleKey);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKey);
-    };
-  }, []);
-
-  function isActive(href?: string): boolean {
-    try {
-      return href ? typeof window !== "undefined" && window.location.pathname === href : false;
-    } catch {
-      return false;
-    }
-  }
-
+const Navbar = () => {
+  const navigate = useNavigate()
+  const {cart} = useCart();
+  const { theme, toggleTheme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className={`w-full bg-white/80 backdrop-blur-md border-b border-gray-200 ${className}`} aria-label="Primary">
+    <nav className="w-full border-b border-gray-300 dark:border-black bg-white/80 dark:bg-black dark:backdrop-blur-xl mb-10 backdrop-blur-md fixed top-0 left-0 z-50">
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="h-16 flex items-center justify-between md:grid md:grid-cols-3 md:items-center">
-
-          {/*  logo */}
-          <div className="flex items-center">
-            <a href="/" className="flex items-center gap-3">
-              {typeof logo === "string" ? <span className="text-lg font-semibold">{logo}</span> : logo}
-            </a>
+        <div className="flex justify-between items-center h-16">
+          {/* Brand */}
+          <div className="flex-shrink-0 text-2xl font-bold cursor-pointer">
+            Bobyx
           </div>
 
-          {/* center: desktop nav links (hidden on small screens) */}
-          <div className="hidden md:flex md:justify-center md:space-x-6 md:col-start-2">
-            {links.map((link) =>
-              link.subLinks ? (
-                <div key={link.name} className="relative">
-                  <button
-                    onClick={() => setShopOpen((s) => !s)}
-                    className={`text-sm font-medium px-3 py-2 rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 ${
-                      shopOpen ? "text-indigo-600" : "text-gray-700 hover:text-indigo-600"
-                    }`}
-                  >
-                    {link.name}
-                  </button>
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-8 items-center">
+            <a href="#" className="hover:text-blue-500 transition">Shop</a>
+            <a href="#" className="hover:text-blue-500 transition">Latest Fits</a>
+            <a href="#" className="hover:text-blue-500 transition">Gallery</a>
+            <a href="#" className="hover:text-blue-500 transition">Contact</a>
 
-                  {shopOpen && (
-                    <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                      {link.subLinks.map((sub) => (
-                        <a
-                          key={sub.href}
-                          href={sub.href}
-                          className={`block px-4 py-2 text-sm ${
-                            isActive(sub.href) ? "bg-indigo-50 text-indigo-600" : "text-gray-700 hover:bg-gray-50"
-                          }`}
-                        >
-                          {sub.name}
-                        </a>
-                      ))}
-                    </div>
-)}
-
-                </div>
-              ) : (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className={`text-sm font-medium px-3 py-2 rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 ${
-                    isActive(link.href) ? "text-indigo-600" : "text-gray-700 hover:text-indigo-600"
-                  }`}
-                >
-                  {link.name}
-                </a>
-              )
-            )}
-          </div>
-
-          {/* search icon */}
-          <div className="flex items-center space-x-4 md:col-start-3 md:justify-end">
-            <button aria-label="Search" className="p-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
-              <svg className="h-6 w-6 text-gray-700 hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
-              </svg>
-            </button>
-              {/* shopping bad */}
-            <a href="/cart" aria-label="cart" className="p-1 rounded focus:outline-none relative focus-visible:ring-2 focus-visible:ring-indigo-500">
-              <svg className="h-6 w-6 text-gray-700 hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a2 2 0 104 0" />
-              </svg>
-              {cartCount > 0&&(
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white p-1 text-xs rounded-full ">
-                  {cartCount}
-                </span>
-              )}
-            </a>
-
-            {/* mobile only hamburger button */}
+            {/* Theme toggle */}
             <button
-              onClick={() => setOpen((s) => !s)}
-              aria-controls="mobile-menu"
-              aria-expanded={open}
-              aria-label={open ? "Close menu" : "Open menu"}
-              className="inline-flex items-center justify-center p-2 rounded-md md:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              onClick={toggleTheme}
+              className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-800 hover:opacity-80 transition"
             >
-              <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-              {open ? (
-                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              )}
+              {theme === "light" ? "Dark" : "Light"}
+            </button>
+          </div>
+
+          {/* Mobile Hamburger */}
+          <div className="md:hidden flex items-center">
+            <button onClick={()=>{navigate('/cart')}} className="relative mx-4">
+          <ShoppingCart size={20} color={theme ==="light"?"#000":"#ffffff"} />
+          {cart.length > 0 && (
+            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+              {cart.length}
+            </span>
+          )}
+        </button>
+            <button onClick={() => setIsOpen(!isOpen)} className="p-2">
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* mobile menu panel */}
-      <div ref={menuRef} id="mobile-menu" className={`md:hidden ${open ? "block" : "hidden"} transition-all`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          {links.map((link) =>
-            link.subLinks ? (
-              <div key={link.name}>
-                <span className="block px-3 py-2 text-base font-medium text-gray-700">{link.name}</span>
-                {link.subLinks.map((sub) => (
-                  <a
-                    key={sub.href}
-                    href={sub.href}
-                    className={`block pl-6 pr-3 py-2 rounded-md text-sm font-medium ${
-                      isActive(sub.href) ? "text-indigo-600 bg-indigo-50" : "text-gray-700 hover:bg-gray-50"
-                    }`}
-                    onClick={() => setOpen(false)}
-                  >
-                    {sub.name}
-                  </a>
-                ))}
-              </div>
-            ) : (
-              <a
-                key={link.href}
-                href={link.href}
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  isActive(link.href) ? "text-indigo-600 bg-indigo-50" : "text-gray-700 hover:bg-gray-50"
-                }`}
-                onClick={
-                  (e) =>{e.preventDefault(); setOpen(false)}}
-              >
-                {link.name}
-              </a>
-            )
-          )}
+      {/* Mobile Menu Dropdown */}
+      {isOpen && (
+        <div className="md:hidden bg-white dark:bg-black backdrop-blur-lg border-t border-gray-300 dark:border-gray-700">
+          <div className="flex flex-col space-y-4 px-4 py-4">
+            <a href="/shop" className="hover:text-blue-500 transition">Shop</a>
+            <a href="#" className="hover:text-blue-500 transition">Latest Fits</a>
+            <a href="#" className="hover:text-blue-500 transition">Gallery</a>
+            <a href="#" className="hover:text-blue-500 transition">Contact</a>
+
+            <button
+              onClick={toggleTheme}
+              className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-800 hover:opacity-80 transition"
+            >
+              {theme === "light" ? "Dark" : "Light"}
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
-}
+};
+
+export default Navbar;

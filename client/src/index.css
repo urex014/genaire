@@ -2,7 +2,14 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
+.dark {
+  --bg: #000;
+  /* black */
+  --text: #f1f5f9;
+  /* slate-100 */
+  --primary: #38bdf8;
+  /* sky-400 */
+}
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -118,3 +125,4 @@
     @apply bg-background text-foreground;
   }
 }
+

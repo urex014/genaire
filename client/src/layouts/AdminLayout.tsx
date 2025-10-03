@@ -1,12 +1,14 @@
+// src/layouts/AdminLayout.tsx
+import { Outlet } from "react-router-dom";
+import Sidebar from "@/components/admin/Sidebar";
 
+const AdminLayout = () => (
+  <div className="flex">
+    <Sidebar />
+    <main className="flex-1 p-4">
+      <Outlet />
+    </main>
+  </div>
+);
 
-
-import React from 'react'
-
-const AdminLayout = () => {
-  return (
-    <div>AdminLayout</div>
-  )
-}
-
-export default AdminLayout
+export default AdminLayout;
