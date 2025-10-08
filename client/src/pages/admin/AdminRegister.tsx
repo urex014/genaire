@@ -9,8 +9,6 @@ function AdminRegister() {
   const [password, setPassword] = useState("")
   const[phone, setPhone] = useState("")
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
   const navigate = useNavigate()
 
   interface RegisterResponse {
@@ -23,8 +21,6 @@ function AdminRegister() {
 
   async function register(e: RegisterEvent): Promise<void> {
     e.preventDefault()
-    setError("")
-    setSuccess("")
     setLoading(true)
 
     try {
@@ -47,7 +43,6 @@ function AdminRegister() {
       setPassword("")
     } catch (err: any) {
       toast.error(err.message)
-      setError(err.message)
     } finally {
       setLoading(false)
       navigate('/admin/login')

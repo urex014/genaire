@@ -6,7 +6,6 @@ const Dashboard = () => {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [message, setMessage] = useState("");
   const [description, setDescription] = useState("");
 
   const api = import.meta.env.VITE_API_URL

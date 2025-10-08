@@ -7,7 +7,6 @@ import Checkout from "./pages/client/Checkout";
 import Dashboard from "./pages/admin/Dashboard";
 import Products from "./pages/admin/Products";
 import Orders from "./pages/admin/Orders";
-import Users from "./pages/admin/Users";
 import ClientLayout from "./layouts/ClientLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import Contact from "./pages/client/Contact";

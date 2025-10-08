@@ -8,7 +8,6 @@ function AdminLogin() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
 
   interface LoginResponse {
@@ -21,7 +20,6 @@ function AdminLogin() {
 
   async function login(e: LoginEvent): Promise<void> {
     e.preventDefault() // prevent page reload
-    setError("")
     setSuccess("")
     setLoading(true)
 
@@ -50,10 +48,10 @@ function AdminLogin() {
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message)
-        setError(err.message)
+
       } else {
         toast.error("An unknown error occurred")
-        setError("An unknown error occurred")
+
       }
     } finally {
       setLoading(false)
