@@ -16,6 +16,8 @@ import Gallery from "./pages/client/Gallery";
 import Male from "./pages/client/wears/Male";
 import Female from "./pages/client/wears/Female";
 import Unisex from "./pages/client/wears/Unisex";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminRegister from "./pages/admin/AdminRegister";
 
 
 export default function App(){
@@ -40,10 +42,11 @@ export default function App(){
 
             {/* admin routes */}
             <Route element={<AdminLayout/>}>
-              <Route path="/admin" element={<Dashboard />} />
+            <Route path="/admin/register" element={<AdminRegister />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<Dashboard />} />
               <Route path="/admin/products" element={<Products />} />
               <Route path="/admin/orders" element={<Orders />} />
-              <Route path="/admin/users" element={<Users />} />
             </Route>
           </Routes>
         </Router>

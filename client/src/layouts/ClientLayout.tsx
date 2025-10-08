@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const ClientLayout = () => (
-  <div>
+  <div className="dark:bg-black">
     <Navbar />
     <main>
       <Outlet />

@@ -5,10 +5,11 @@ import SplitText from "./SplitText";
 import TextType from './TextType';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/utils/ThemeContext';
+import { UserStar } from 'lucide-react';
 
 export default function Hero(){
 const navigate = useNavigate()
-const theme = useTheme();
+const {theme} = useTheme();
 
 
   return (
@@ -34,9 +35,15 @@ const theme = useTheme();
   />
       </div>
       {/* content */}
+      
       <div className="relative flex flex-col items-center justify-center w-full h-screen text-center space-y-8 backdrop-blur-sm">
         <div className='mt-10' style={{ height: '100px' }}>
-          {/* navbar */}
+          <div className="relative w-screen mt-6 mr-6">
+            <div onClick={()=>{navigate('/admin/login')}} className='absolute items-center top-0 flex flex-col right-0 animate-pulse'>
+        <UserStar size={40} color={theme==="dark"?"#fff":"#000"} />
+        <p className="mt-2">admin?</p>
+        </div>
+      </div>
 </div>
   {/* Tagline */}
   <SplitText
@@ -63,7 +70,7 @@ const theme = useTheme();
     width={true}
     weight={true}
     italic={false}
-    textColor={theme?.theme === 'dark' ? '#FFFFFF' : '#000000'}
+    textColor={theme=== 'dark' ? '#FFFFFF' : '#000000'}
     strokeColor="#ff0000"
     minFontSize={20} // smaller minimum on mobile
   />

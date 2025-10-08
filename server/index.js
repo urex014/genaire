@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
 import productRoute from './routes/productRoute.js'
+import authRoute from './routes/authRoute.js'
 import path from 'path'
 import { fileURLToPath } from 'url';
 
@@ -39,7 +40,7 @@ const connectDB = async () => {
 connectDB();
 
 // Basic Route
-
+app.use('/api/auth', authRoute)
 app.use('/api/products',productRoute)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Start Server

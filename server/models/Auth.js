@@ -5,7 +5,7 @@ const authSchema = new mongoose.Schema(
   {
     fullName:{
       type:String,
-      required:[true, "Username is required"],
+      required:[false],
       trim:true,
     },
     email:{
@@ -17,6 +17,11 @@ const authSchema = new mongoose.Schema(
       type:String,
       required:true,
       trim:true
+    },
+    phone:{
+      type:String,
+      trim:true,
+      required:true,
     }
   },
   {
