@@ -98,13 +98,13 @@ function Cart() {
       
       <button
       onClick={() => navigate("/checkout")}
-      className="mt-3 shadow-[0_0_20px_4px_#3b82f6] hover:shadow-[0_0_30px_6px_#3b82f6] w-full bg-blue-600 text-white py-3 px-5 rounded-xl hover:bg-blue-700 font-bold shadow-blue-500/50 transition"
+      className="mt-3 shadow-md hover:shadow-[0_0_30px_6px_#3b82f6] w-full bg-blue-600 text-white py-3 px-5 rounded-xl hover:bg-blue-700 font-bold shadow-blue-500/50 transition"
     >
       Proceed to Checkout
     </button>
       <button
         onClick={clearCart}
-        className="mt-3 shadow-[0_0_20px_4px_#ef444466] hover:shadow-[0_0_30px_6px_#EF444466] w-full bg-red-600 text-white py-3 px-5 rounded-xl hover:bg-red-700 font-bold shadow-red-500/50 transition"
+        className="mt-3 shadow-md hover:shadow-[0_0_30px_6px_#EF444466] w-full bg-red-600 text-white py-3 px-5 rounded-xl hover:bg-red-700 font-bold shadow-red-500/50 transition"
       >
         Clear Cart
       </button>
