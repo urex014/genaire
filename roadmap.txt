@@ -205,3 +205,23 @@ Set up your domain name and HTTPS.
           </aside>
         </>
       )}
+
+
+METIS/USDT
+exchanges: Bingx
+signal Type: Regular(long);
+Leverage Cross(50x)
+
+Entry targets:
+18.90
+
+Take-Profit Targets:
+1. 19.18350
+2. 19.37250
+3. 19.56150
+4. 19.84500
+5. 20.03400
+6. 20.31750
+
+stop Targets:
+5-10%

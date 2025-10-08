@@ -1,8 +1,10 @@
 // src/types/Product.ts
 export interface Product {
-  id: string;
-  name: string;
+  _id: string;
+  title: string;
   price: number;
-  image: string;
   description: string;
+  image: string;
+  quantity: number;
+  createdAt: string; // ISO date string from MongoDB timestamp
 }

@@ -7,7 +7,11 @@ module.exports = {
     "./node_modules/@heroui/theme/dist/components/navbar.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        dark:"#000"
+      }
+    },
   },
   darkMode: "class",
   plugins: [heroui()],

@@ -11,20 +11,29 @@ import Users from "./pages/admin/Users";
 import ClientLayout from "./layouts/ClientLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import Contact from "./pages/client/Contact";
-
+import LatestFits from "./pages/client/LatestFits";
+import Gallery from "./pages/client/Gallery";
+import Male from "./pages/client/wears/Male";
+import Female from "./pages/client/wears/Female";
+import Unisex from "./pages/client/wears/Unisex";
 
 
 export default function App(){
   return(
-    <div>
+    <div className="bg-white dark:bg-black transition min-h-screen">
       <Router>
           <Routes>
             <Route path="/" element={<Hero />} />
             {/* client routes */}
             <Route element={<ClientLayout />}>
               <Route path="/shop" element={<Shop />} />
+              <Route path="/latest" element={<LatestFits />} />
+              <Route path="/gallery" element={<Gallery />} />
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/male" element={<Male />} />
+              <Route path="/female" element={<Female />} />
+              <Route path="/unisex" element={<Unisex />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/contact" element={<Contact  />} />
             </Route>
