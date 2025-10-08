@@ -1,12 +1,9 @@
 import Hero from "./components/Hero"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Shop from "./pages/client/Shop";
-import ProductDetails from "./pages/client/ProductDetails";
-import Cart from "./pages/client/Cart";
 import Checkout from "./pages/client/Checkout";
 import Dashboard from "./pages/admin/Dashboard";
-import Products from "./pages/admin/Products";
-import Orders from "./pages/admin/Orders";
+import Cart from "./pages/client/Cart";
 import ClientLayout from "./layouts/ClientLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import Contact from "./pages/client/Contact";
@@ -30,7 +27,6 @@ export default function App(){
               <Route path="/shop" element={<Shop />} />
               <Route path="/latest" element={<LatestFits />} />
               <Route path="/gallery" element={<Gallery />} />
-              <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/male" element={<Male />} />
               <Route path="/female" element={<Female />} />
@@ -44,8 +40,6 @@ export default function App(){
             <Route path="/admin/register" element={<AdminRegister />} />
             <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<Dashboard />} />
-              <Route path="/admin/products" element={<Products />} />
-              <Route path="/admin/orders" element={<Orders />} />
             </Route>
           </Routes>
         </Router>

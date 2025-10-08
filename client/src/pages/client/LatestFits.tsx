@@ -2,13 +2,14 @@ import TiltedCard from "@/components/TiltedCard";
 import { useCart } from "@/utils/CartContext";
 import {useState, useEffect} from 'react'
 import type { Product } from "@/types/Product";
+import toast from "react-hot-toast";
 
 function LatestFits() {
   const {addToCart} = useCart();
   const [loading, setLoading] = useState(false)
 
   const [products, setProducts] = useState<Product[]>([])
-  const [error, setError] = useState<string | null>(null);
+;
   const api = import.meta.env.VITE_API_URL
 
     useEffect(()=>{
@@ -32,7 +33,8 @@ function LatestFits() {
             console.info(data)
             setProducts(data)
           }catch(err){
-            setError((err as Error).message)
+            toast.error((err as Error).message)
+            
           } finally{
             setLoading(false)
           }
