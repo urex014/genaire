@@ -1,4 +1,4 @@
-import Auth from "../models/auth.js";
+import Auth from "../models/Auth.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { configDotenv } from "dotenv";
