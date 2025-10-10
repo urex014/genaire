@@ -98,7 +98,7 @@ function Shop() {
           >
             
             <TiltedCard
-              imageSrc={`${api}/uploads/${product.image}`}
+              imageSrc={product.image}
               altText={''}
               captionText={product.title}
               containerHeight="300px"

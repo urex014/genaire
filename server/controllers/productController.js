@@ -3,7 +3,6 @@
 import Product from "../models/Product.js";
 import multer from "multer";
 import path from 'path'
-import fs from 'fs'
 import cloudinary from "../config/cloudinary.js";
 import streamifier from 'streamifier'
 
