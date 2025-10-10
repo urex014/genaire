@@ -24,7 +24,7 @@ const Dashboard = () => {
     formData.append("price", price);
     formData.append("description", description);
     formData.append("quantity", quantity);
-    formData.append("image", image as Blob);
+    formData.append("image", image);
 
     try {
       const res = await fetch(`${api}/api/products`, {
@@ -139,7 +139,11 @@ const Dashboard = () => {
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => setImage(e.target.files?.[0] || null)}
+              onChange={(e)=>{
+                if(e.target.files && e.target.files[0]){
+                  setImage(e.target.files[0])
+                }
+              }}
               className="absolute inset-0 opacity-0 cursor-pointer"
               required
             />
