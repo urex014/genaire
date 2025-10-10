@@ -4,23 +4,11 @@ import Product from "../models/Product.js";
 import multer from "multer";
 import path from 'path'
 import fs from 'fs'
-
-
-//upload folder
-const uploadDir = "uploads";
-if(!fs.existsSync(uploadDir)){
-  fs.mkdirSync(uploadDir)
-}
+import cloudinary from "../config/cloudinary.js";
+import streamifier from 'streamifier'
 
 //multer storage
-const storage = multer.diskStorage({
-  destination:(req,file, cb)=>{
-    cb(null, uploadDir);
-  },
-  filename: (req,file, cb) =>{
-    cb(null, Date.now()+path.extname(file.originalname));
-  }
-});
+const storage = multer.memoryStorage()
 export const upload=multer({storage})
 
 // @desc    Create a new product
@@ -34,13 +22,25 @@ export const createProduct = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const product = new Product({ title, price, description, image, quantity });
+    const uploadResult = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {folder:'products'},
+        (error, result) => {
+          if(error) return reject(error);
+          resolve(result)
+        }
+      );
+      streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
+    });
+
+    const product = new Product({ title, price, description, image:uploadResult.secure_url, quantity });
     await product.save();
 
     res.status(201).json({
       message: "Product created successfully",
       product,
     });
+    req.file.stream.pipe(result);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

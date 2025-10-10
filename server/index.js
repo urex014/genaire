@@ -25,6 +25,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(morgan("dev")); // Log requests in dev mode
 
+
+
+
 // MongoDB Connection
 const connectDB = async () => {
   try {
