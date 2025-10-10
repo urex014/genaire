@@ -24,6 +24,7 @@ function Shop() {
             "Content-Type":"application/json"
           }
         })
+        console.log(response)
         if(!response.ok){
           throw new Error("Failed to fetch products")
         }
@@ -97,7 +98,7 @@ function Shop() {
           >
             
             <TiltedCard
-              imageSrc={`${import.meta.env.VITE_API_URL}/uploads/${product.image}`}
+              imageSrc={`${api}/uploads/${product.image}`}
               altText={''}
               captionText={product.title}
               containerHeight="300px"
