@@ -24,20 +24,21 @@ const Dashboard = () => {
     formData.append("price", price);
     formData.append("description", description);
     formData.append("quantity", quantity);
-    formData.append("image", image);
+    formData.append("image", image as Blob);
 
     try {
       const res = await fetch(`${api}/api/products`, {
         method: "POST",
         body: formData, // send directly, no JSON.stringify
       });
-
-      if (res.ok) {
-        toast.success("Product added successfully");
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error('failed to upload product');
+        return;
       }
 
-      const data = await res.json();
-      toast.success("Product added successfully");
+      
+      toast.success("Product uploaded successfully!");
       console.info("Response:", data);
     } catch (err) {
       toast.error("Failed to upload product");

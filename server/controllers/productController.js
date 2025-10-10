@@ -15,9 +15,8 @@ export const upload=multer({storage})
 export const createProduct = async (req, res) => {
   try {
     const { title, price, description, quantity } = req.body;
-    const image = req.file ? req.file.filename:null;
     
-    if (!title || !price || !description || !quantity || !image) {
+    if (!title || !price || !description || !quantity || !req.file) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -25,8 +24,8 @@ export const createProduct = async (req, res) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {folder:'products'},
         (error, result) => {
-          if(error) return reject(error);
-          resolve(result)
+          if(error) reject(error);
+          else resolve(result)
         }
       );
       streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
@@ -39,7 +38,6 @@ export const createProduct = async (req, res) => {
       message: "Product created successfully",
       product,
     });
-    req.file.stream.pipe(result);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
