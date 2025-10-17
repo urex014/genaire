@@ -78,7 +78,7 @@ const {theme} = useTheme();
 
 
   {/* Optional Call-to-Action */}
-  <button onClick={()=>{navigate("/shop")}} className="px-8 py-4 mb-5 bg-white rounded-full tracking-wide shadow-lg hover:bg-gray-200 transition">
+  <button onClick={()=>{navigate("/shop")}} className="px-8 py-4 mb-5 bg-white rounded-full tracking-wide light:bg-gray-400 shadow-lg hover:bg-gray-200 transition">
     <TextType 
       text={["Explore fits!"]}
       typingSpeed={75}

@@ -54,16 +54,14 @@ function Cart() {
           <img
               className="mr-5 h-30 w-30 object-cover rounded"
               alt={item.title}
-              src={
-                `${import.meta.env.VITE_API_URL}/uploads/${item.image}`
-              }
+              src={item.image}
             />
             </div>
           <div className="flex w-full flex-row items-center">
             <div className="flex flex-col">
               <p className="font-semibold">{item.title}</p>
               <p className="text-sm text-gray-600">
-                {item.quantity} × ${item.price}
+                {item.quantity} × N{item.price}
               </p>
               <div className="flex flex-col items-center mt-2">
                 <div className="flex border border-gray-400 p-1 rounded-lg px-2 shadow-lg flex-row items-center">
@@ -75,12 +73,12 @@ function Cart() {
             </div>
           </div>
           
-          <button
+          <div
             onClick={() => removeFromCart(item._id)}
             className="text-red-500 hover:underline"
           >
             <Trash  color={'red'} />
-          </button>
+          </div>
           
         </div>
       ))}

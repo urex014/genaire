@@ -19,7 +19,7 @@ function LatestFits() {
             if (!api) {
               throw new Error("PRODUCT_API environment variable is not defined");
             }
-            const response = await fetch(`${api}/api/products`,{
+            const response = await fetch(`${api}/api/products/latest`,{
               method:"GET",
               headers:{
                 "Content-Type":"application/json"
@@ -79,7 +79,7 @@ function LatestFits() {
             >
               
               <TiltedCard
-                imageSrc={`${api}/uploads/${product.image}`}
+                imageSrc={product.image}
                 altText={''}
                 captionText={product.title}
                 containerHeight="300px"

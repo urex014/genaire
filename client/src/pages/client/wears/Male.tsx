@@ -2,7 +2,7 @@
 
 function Male() {
   return (
-    <div>Male</div>
+    <div className="h-full pt-20 px-6 w-full">Male</div>
   )
 }
 
